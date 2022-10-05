@@ -1,1 +1,40 @@
-<p>signup works!</p>
+<div class="container mt-5 col-md-4">
+    <form class="form-signin" [formGroup]="signupForm" (ngSubmit)="signupForm.valid && registerUser()">
+        <h3 class="h3 mb-3 font-weight-normal text-center">Registrace nového uživatele</h3>
+        <div class="form-group">
+            <label>Jméno</label>
+            <input type="text" class="form-control" formControlName="full_name" placeholder="Zadejte celé jméno" required />
+            <div class="alert alert-danger" *ngIf="signupForm.controls['full_name'].invalid && signupForm.controls['full_name'].touched ">
+                Zadejte své jméno
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Přezdívka</label>
+            <input type="text" class="form-control" formControlName="name" placeholder="Zadejte přezdívku" required />
+            <div class="alert alert-danger" *ngIf="signupForm.controls['name'].invalid && signupForm.controls['name'].touched ">
+                Zadejte svůj nick
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Emailová adresa</label>
+            <input type="email" class="form-control" formControlName="email" placeholder="Zadejte email" ngModel [email]="true" required />
+            <div class="alert alert-danger" *ngIf="signupForm.controls['email'].invalid && signupForm.controls['email'].touched ">
+                Špatný formát emailu
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Heslo</label>
+            <input type="password" class="form-control" formControlName="password" placeholder="Heslo" required />
+        </div>
+        <div class="form-group">
+            <label>Potvrdit heslo</label>
+            <input type="password" class="form-control" formControlName="password_confirmation" placeholder="Potvrzení hesla" required />
+            <div class="alert alert-danger" *ngIf="signupForm.controls['password'].value !== signupForm.controls['password_confirmation'].value 
+                                            && signupForm.controls['password'].touched">
+                Hesla nejsou shodná
+            </div>
+        </div>
+        <button type="submit" class="btn btn-block btn-primary">Sign up</button>
+    </form>
+    {{ this.errorMessage }}
+</div>

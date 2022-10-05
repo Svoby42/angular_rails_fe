@@ -1,0 +1,24 @@
+.spacer{
+    flex: 1 1 auto;
+}
+a{
+    font-weight: bold;
+}
+ul > li{
+    margin-right: 1vh;
+}
+.app-toolbar {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: grey;
+}
+.app-footer {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 100vh;
+}
+.navbar-toggler{
+    background-color: white;
+}

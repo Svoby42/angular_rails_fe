@@ -26,9 +26,10 @@ export class AuthService {
         .post<any>(`${API_URL}/auth/login`, user)
         .subscribe((res: any) => {
           localStorage.setItem('jwt_token', res.token);
-          this.getUserProfile(res.id).subscribe((res) => {
-            this.currentUser = res;
-            this.router.navigate(['profil/' + res.msg.id]);
+          console.log(res.user.id)
+          this.getUserProfile(res.user.id).subscribe((res) => {
+            this.currentUser = res.user;
+            this.router.navigate(['profil/' + res.user.id]);
           })
         })
   }
