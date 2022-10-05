@@ -12,7 +12,8 @@ import { AuthService } from 'src/app/services/auth.service';
 export class SignupComponent implements OnInit {
   user: User = new User;
   errorMessage: string = "";
-  confirmedPassowrd: string = "";
+  request_body: any;
+  successful: boolean = false;
 
   signupForm: FormGroup;
   constructor(
@@ -31,19 +32,22 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  registerUser(){
-    console.log(this.user)
-    this.authService.signUp(this.user).subscribe(
+  registerUser() {
+    this.authService.signUp(this.signupForm.value).subscribe(
       data => {
-        this.router.navigate(['/login']);
+        this.successful = true;
+        this.errorMessage = "Registrace úspěšná, probíhá přesměrování"
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 3000)  // po 3 sekundach redirect
       }, err => {
+        console.log(err.error);
         if (err?.status == 409) {
-          this.errorMessage = 'Uživatelské ';
+          this.errorMessage = 'Uživatelské jméno již existuje';
         } else {
           this.errorMessage = 'Chyba ' + err.errorMessage;
           console.log(err);
         }
-      })
+    });
   }
-
 }

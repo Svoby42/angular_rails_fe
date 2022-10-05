@@ -1,30 +1,45 @@
-<div class="container mt-5 col-md-4">
-    <form class="form-signin" [formGroup]="signupForm" (ngSubmit)="signupForm.valid && registerUser()">
+<div class="container mt-5 col-md-5">
+    <div class="alert alert-danger" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+    <form #form="ngForm" class="form-signin" [formGroup]="signupForm" (ngSubmit)="signupForm.valid && registerUser()">
         <h3 class="h3 mb-3 font-weight-normal text-center">Registrace nového uživatele</h3>
         <div class="form-group">
             <label>Jméno</label>
             <input type="text" class="form-control" formControlName="full_name" placeholder="Zadejte celé jméno" required />
-            <div class="alert alert-danger" *ngIf="signupForm.controls['full_name'].invalid && signupForm.controls['full_name'].touched ">
+            <div class="alert alert-danger" *ngIf="signupForm.controls['full_name'].invalid && form.submitted ">
                 Zadejte své jméno
+            </div>
+            <div class="alert alert-danger" *ngIf="form.submitted && signupForm.controls['full_name'].invalid && !form.submitted">
+                Zadejte svůj nick
             </div>
         </div>
         <div class="form-group">
             <label>Přezdívka</label>
             <input type="text" class="form-control" formControlName="name" placeholder="Zadejte přezdívku" required />
-            <div class="alert alert-danger" *ngIf="signupForm.controls['name'].invalid && signupForm.controls['name'].touched ">
+            <div class="alert alert-danger" *ngIf="signupForm.controls['name'].invalid && form.submitted ">
+                Zadejte svůj nick
+            </div>
+            <div class="alert alert-danger" *ngIf="signupForm.controls['name'].touched && signupForm.controls['name'].invalid && !form.submitted">
                 Zadejte svůj nick
             </div>
         </div>
         <div class="form-group">
             <label>Emailová adresa</label>
-            <input type="email" class="form-control" formControlName="email" placeholder="Zadejte email" ngModel [email]="true" required />
-            <div class="alert alert-danger" *ngIf="signupForm.controls['email'].invalid && signupForm.controls['email'].touched ">
+            <input type="email" class="form-control" formControlName="email" placeholder="Zadejte email" required pattern="^[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)$" />
+            <div class="alert alert-danger" *ngIf="signupForm.controls['email'].invalid && form.submitted ">
+                Špatný formát emailu
+            </div>
+            <div class="alert alert-danger" *ngIf="signupForm.controls['email'].touched && signupForm.controls['email'].invalid && !form.submitted">
                 Špatný formát emailu
             </div>
         </div>
         <div class="form-group">
             <label>Heslo</label>
             <input type="password" class="form-control" formControlName="password" placeholder="Heslo" required />
+            <div class="alert alert-danger" *ngIf="form.submitted && signupForm.controls['password'].invalid">
+                Zadejte heslo
+            </div>
         </div>
         <div class="form-group">
             <label>Potvrdit heslo</label>
@@ -34,7 +49,9 @@
                 Hesla nejsou shodná
             </div>
         </div>
-        <button type="submit" class="btn btn-block btn-primary">Sign up</button>
+        <button type="submit" class="btn btn-block btn-primary mt-1">Zaregistrovat</button>
     </form>
-    {{ this.errorMessage }}
+    <div class="alert alert-success" *ngIf="this.successful">
+        {{ this.errorMessage }}
+    </div>
 </div>
