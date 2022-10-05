@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SignupComponent implements OnInit {
   user: User = new User;
-  errorMessage: string = "";
+  errorMessage: any;
   request_body: any;
   successful: boolean = false;
 
@@ -41,11 +41,14 @@ export class SignupComponent implements OnInit {
           this.router.navigate(['/login']);
         }, 3000)  // po 3 sekundach redirect
       }, err => {
-        console.log(err.error);
+        console.log(err.error.error);
         if (err?.status == 409) {
           this.errorMessage = 'Uživatelské jméno již existuje';
         } else {
-          this.errorMessage = 'Chyba ' + err.errorMessage;
+          this.errorMessage = []
+          err.error.error.forEach((element: { "": string; }) => {
+            this.errorMessage.push(element)
+          });
           console.log(err);
         }
     });

@@ -1,6 +1,6 @@
 <div class="container mt-5 col-md-5">
-    <div class="alert alert-danger" *ngIf="errorMessage">
-        {{ errorMessage }}
+    <div class="alert alert-danger" *ngFor="let error of errorMessage">
+        {{ error }}
     </div>
     <form #form="ngForm" class="form-signin" [formGroup]="signupForm" (ngSubmit)="signupForm.valid && registerUser()">
         <h3 class="h3 mb-3 font-weight-normal text-center">Registrace nového uživatele</h3>
