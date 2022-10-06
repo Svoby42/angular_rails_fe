@@ -16,6 +16,7 @@ export class SignupComponent implements OnInit {
   request_body: any;
   successful: boolean = false;
   emailAlreadyExists: boolean = false
+  nickAlreadyExists: boolean = false
 
   signupForm: FormGroup;
   constructor(
@@ -30,48 +31,64 @@ export class SignupComponent implements OnInit {
         password: [''],
         password_confirmation: ['']
       });
-      this.signupForm.get('email')?.valueChanges.subscribe(change => {
-        this.checkEmail
-      })
     }
 
   ngOnInit(): void {
   }
   registerUser() {
-    this.authService.signUp(this.signupForm.value).subscribe(
-      data => {
-        this.successful = true;
-        this.errorMessage = "Registrace úspěšná, probíhá přesměrování"
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 3000)  // po 3 sekundach redirect
-      }, err => {
-        console.log(err.error.error);
-        if (err?.status == 422) {
-          this.errorMessage = []
-          err.error.error.forEach((element: { "": string; }) => {
-            this.errorMessage.push(element)
-          });
-          console.log(err);
-        } else {
-          this.errorMessage = []
-          err.error.error.forEach((element: { "": string; }) => {
-            this.errorMessage.push(element)
-          });
-          console.log(err);
+    this.authService.signUp(this.signupForm.value).subscribe({
+        next: (data) => {
+          this.successful = true;
+          this.errorMessage = "Registrace úspěšná, probíhá přesměrování"
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 3000)  // po 3 sekundach redirect
+        },
+        error: (err) => {
+          console.log(err.error.error);
+          if (err?.status == 422) {
+            this.errorMessage = []
+            err.error.error.forEach((element: { "": string; }) => {
+              this.errorMessage.push(element)
+            });
+            console.log(err);
+          } else {
+            this.errorMessage = []
+            err.error.error.forEach((element: { "": string; }) => {
+              this.errorMessage.push(element)
+            });
+            console.log(err);
+          }
         }
-    });
+      });
   }
   checkEmail(){
     if (this.signupForm.controls['email'].valid) {
-      this.authService.validateEmail(this.signupForm.controls['email'].value).subscribe(
-        (res) => {
+      this.authService.validateEmail(this.signupForm.controls['email'].value).subscribe({
+        next: (res) => {
           console.log(res);
-          console.log(res.status)
-      }, err => {
-        if(err?.status ==  409){
-          this.emailAlreadyExists = true;
-          console.log(err);
+          console.log(res.status);
+        },
+        error: (err) => {
+          if (err?.status == 409){
+            this.emailAlreadyExists = true;
+            console.log(err);
+          }
+        }
+      });
+    }
+  }
+  checkNick(){
+    if (this.signupForm.controls['name'].valid) {
+      this.authService.validateNick(this.signupForm.controls['name'].value).subscribe({
+        next: (res) => {
+          console.log(res);
+        },
+        error: (err) => {
+          if (err?.status == 409){
+            this.nickAlreadyExists = true;
+            console.log(err);
+          }
         }
       })
     }

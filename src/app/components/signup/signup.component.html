@@ -16,17 +16,22 @@
         </div>
         <div class="form-group">
             <label>Přezdívka</label>
-            <input type="text" class="form-control" formControlName="name" placeholder="Zadejte přezdívku" required />
+            <input type="text" class="form-control" formControlName="name" placeholder="Zadejte přezdívku" 
+            required pattern="^[a-zA-Z0-9]+$" (change)="checkNick()" />
             <div class="alert alert-danger" *ngIf="signupForm.controls['name'].invalid && form.submitted ">
                 Zadejte svůj nick
             </div>
             <div class="alert alert-danger" *ngIf="signupForm.controls['name'].touched && signupForm.controls['name'].invalid && !form.submitted">
                 Zadejte svůj nick
             </div>
+            <div class="alert alert-danger" *ngIf="nickAlreadyExists">
+                Tato přezdívka je již obsazena
+            </div>
         </div>
         <div class="form-group">
             <label>Emailová adresa</label>
             <input type="email" class="form-control" formControlName="email" placeholder="Zadejte email" 
+            [style.background-color]="(emailAlreadyExists && signupForm.controls['email'].valid && signupForm.controls['email'].touched)?'green':''"
             required pattern="^[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)$" 
             (change)="checkEmail()"/>
             <div class="alert alert-danger" *ngIf="signupForm.controls['email'].invalid && form.submitted ">
@@ -35,7 +40,7 @@
             <div class="alert alert-danger" *ngIf="signupForm.controls['email'].touched && signupForm.controls['email'].invalid && !form.submitted">
                 Špatný formát emailu
             </div>
-            <div class="alert alert-danger mt-1" *ngIf="emailAlreadyExists">
+            <div class="alert alert-danger" *ngIf="emailAlreadyExists">
                 Tato e-mailová adresa je již obsazena
             </div>
         </div>
