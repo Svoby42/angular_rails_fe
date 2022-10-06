@@ -4,3 +4,7 @@ form > div {
 .alert{
     margin-top: 1vh;
 }
+.warning{
+    color: red;
+    margin-top: 1vh;
+}

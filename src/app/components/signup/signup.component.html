@@ -17,44 +17,57 @@
         <div class="form-group">
             <label>Přezdívka</label>
             <input type="text" class="form-control" formControlName="name" placeholder="Zadejte přezdívku" 
-            required pattern="^[a-zA-Z0-9]+$" (change)="checkNick()" />
+            [class.is-valid]="!nickAlreadyExists && signupForm.controls['name'].valid && signupForm.controls['name'].touched" 
+            [class.is-invalid]="nickAlreadyExists"
+            (change)="checkNick()" />
             <div class="alert alert-danger" *ngIf="signupForm.controls['name'].invalid && form.submitted ">
                 Zadejte svůj nick
             </div>
             <div class="alert alert-danger" *ngIf="signupForm.controls['name'].touched && signupForm.controls['name'].invalid && !form.submitted">
                 Zadejte svůj nick
             </div>
-            <div class="alert alert-danger" *ngIf="nickAlreadyExists">
+            <div class="warning" *ngIf="nickAlreadyExists">
                 Tato přezdívka je již obsazena
             </div>
         </div>
         <div class="form-group">
             <label>Emailová adresa</label>
-            <input type="email" class="form-control" formControlName="email" placeholder="Zadejte email" 
-            [style.background-color]="(emailAlreadyExists && signupForm.controls['email'].valid && signupForm.controls['email'].touched)?'green':''"
+            <input type="email" class="form-control" 
+            [class.is-valid]="!emailAlreadyExists && signupForm.controls['email'].valid && signupForm.controls['email'].touched" 
+            [class.is-invalid]="emailAlreadyExists"
+            formControlName="email" placeholder="Zadejte email" 
             required pattern="^[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)$" 
             (change)="checkEmail()"/>
-            <div class="alert alert-danger" *ngIf="signupForm.controls['email'].invalid && form.submitted ">
+            <div class="warning" *ngIf="signupForm.controls['email'].invalid && form.submitted ">
                 Špatný formát emailu
             </div>
-            <div class="alert alert-danger" *ngIf="signupForm.controls['email'].touched && signupForm.controls['email'].invalid && !form.submitted">
+            <div class="warning" *ngIf="signupForm.controls['email'].touched && signupForm.controls['email'].invalid && !form.submitted">
                 Špatný formát emailu
             </div>
-            <div class="alert alert-danger" *ngIf="emailAlreadyExists">
+            <div class="warning" *ngIf="emailAlreadyExists">
                 Tato e-mailová adresa je již obsazena
             </div>
         </div>
         <div class="form-group">
-            <label>Heslo</label>
-            <input type="password" class="form-control" formControlName="password" placeholder="Heslo" required />
-            <div class="alert alert-danger" *ngIf="form.submitted && signupForm.controls['password'].invalid">
+            <label>Heslo </label>
+            <input type="password" class="form-control" formControlName="password" placeholder="Heslo" required
+            pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+            [class.is-valid]="signupForm.controls['password'].valid && signupForm.controls['password'].touched"
+            [class.is-invalid]="signupForm.controls['password'].invalid && signupForm.controls['password'].touched" />
+            <div class="warning" *ngIf="form.submitted && signupForm.controls['password'].invalid">
                 Zadejte heslo
+            </div>
+            <div class="warning" *ngIf="signupForm.controls['password'].invalid && signupForm.controls['password'].touched">
+                <i>Heslo nesplňuje bezpečnostní požadavky</i>
+                <p><i><small>Alespoň osm znaků, jedno velké písmeno, jedno číslo a jeden speciální znak</small></i></p>
             </div>
         </div>
         <div class="form-group">
             <label>Potvrdit heslo</label>
-            <input type="password" class="form-control" formControlName="password_confirmation" placeholder="Potvrzení hesla" required />
-            <div class="alert alert-danger" *ngIf="signupForm.controls['password'].value !== signupForm.controls['password_confirmation'].value 
+            <input type="password" class="form-control" formControlName="password_confirmation" placeholder="Potvrzení hesla" required 
+            [class.is-valid]="signupForm.controls['password'].value === signupForm.controls['password_confirmation'].value && signupForm.controls['password'].dirty"
+            [class.is-invalid]="signupForm.controls['password'].value !== signupForm.controls['password_confirmation'].value"/>
+            <div class="warning" *ngIf="signupForm.controls['password'].value !== signupForm.controls['password_confirmation'].value 
                                             && signupForm.controls['password'].touched">
                 Hesla nejsou shodná
             </div>

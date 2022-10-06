@@ -67,7 +67,7 @@ export class SignupComponent implements OnInit {
       this.authService.validateEmail(this.signupForm.controls['email'].value).subscribe({
         next: (res) => {
           console.log(res);
-          console.log(res.status);
+          this.emailAlreadyExists = false;
         },
         error: (err) => {
           if (err?.status == 409){
@@ -83,6 +83,7 @@ export class SignupComponent implements OnInit {
       this.authService.validateNick(this.signupForm.controls['name'].value).subscribe({
         next: (res) => {
           console.log(res);
+          this.nickAlreadyExists = false;
         },
         error: (err) => {
           if (err?.status == 409){
