@@ -1,8 +1,12 @@
 <div class="container">
+  <div class="alert alert-danger" *ngIf="loggedOut">
+    Platnost relace vypršela, přihlaste se znovu
+  </div>
     <div class="row">
       <div class="inner-main">
-        <h2 class="mb-4">User Profile</h2>
-        <p><strong>Name:</strong> {{ this.currentUser.name }}</p>
+        <h2 class="mb-4">Uživatel</h2>
+        <p><strong>Celé jméno:</strong> {{ this.currentUser.full_name }} </p>
+        <p><strong>Jméno:</strong> {{ this.currentUser.name }}</p>
         <p><strong>Email:</strong> {{ this.currentUser.email }}</p>
       </div>
     </div>

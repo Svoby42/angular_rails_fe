@@ -29,7 +29,6 @@ export class SigninComponent implements OnInit {
     this.authService.signIn(this.signinForm.value).subscribe({
       next: res => {
         localStorage.setItem('jwt_token', res.token);
-        console.log(res.user.id)
         this.authService.getUserProfile(res.user.id).subscribe((res) => {
           this.authService.currentUser = res.user;
           this.router.navigate(['profil/' + res.user.id]);

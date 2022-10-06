@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,8 +8,13 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
+  currentTime: any;
+  loggedOut: boolean = false;
+  message: string = "";
   currentUser: any = {};
+  token: string = "";
   constructor(
+    public router: Router,
     public authService: AuthService,
     private actRoute: ActivatedRoute
   ) { 
@@ -19,5 +24,21 @@ export class UserProfileComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.tokenExpired(localStorage.getItem('jwt_token')!)
+  }
+  private tokenExpired(token: string){
+
+    const result = (JSON.parse(atob(token.split('.')[1])))
+    const date = new Date(0);
+    date.setUTCSeconds(result.exp)
+    this.currentTime = Math.round(new Date().getTime() / 1000)
+    console.log(this.currentTime > result.exp)
+    if (this.currentTime > result.exp){
+      this.authService.doLogout
+      this.loggedOut = true
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 5000)  // po 5 sekundach redirect na login page pokud jwt vypršel
+    }
   }
 }
