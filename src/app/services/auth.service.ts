@@ -21,7 +21,7 @@ export class AuthService {
   signUp(user: User): Observable<any> {
     return this.http.post(`${API_URL}/users`, user).pipe(catchError(this.handleError));
   }
-  signIn(user: User) {
+  /*signIn(user: User) {
     return this.http
         .post<any>(`${API_URL}/auth/login`, user)
         .subscribe((res: any) => {
@@ -32,6 +32,9 @@ export class AuthService {
             this.router.navigate(['profil/' + res.user.id]);
           })
         })
+  }*/
+  signIn(user: User): Observable<any> {
+    return this.http.post(`${API_URL}/auth/login`, user).pipe(catchError(this.handleError));
   }
   validateEmail(email: any){
     return this.http.post<any>(`${API_URL}/validate/email`, {"email": email}).pipe(catchError(this.handleError));

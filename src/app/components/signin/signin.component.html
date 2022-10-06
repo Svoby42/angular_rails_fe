@@ -1,9 +1,19 @@
 <div class="container mt-5 col-md-5">
+    <div class="alert alert-danger" *ngIf="errorExists">
+        {{ error }}
+    </div>
     <form class="form-signin" [formGroup]="signinForm" (ngSubmit)="loginUser()">
         <h3 class="h3 mb-3 font-weight-normal text-center">Přihlášení</h3>
         <div class="form-group">
             <label>Email</label>
-            <input type="email" class="form-control" formControlName="email" placeholder="Zadejte svůj email" required />
+            <input type="email" class="form-control" formControlName="email" placeholder="Zadejte svůj email" 
+            pattern="^[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)$"
+            [class.is-valid]="signinForm.controls['email'].valid && signinForm.controls['email'].touched" 
+            [class.is-invalid]="signinForm.controls['email'].invalid && signinForm.controls['email'].touched"
+            required />
+            <div class="warning" *ngIf="signinForm.controls['email'].invalid && signinForm.controls['email'].touched">
+                Špatný formát emailové adresy
+            </div>
         </div>
         <div class="form-group">
             <label>Heslo</label>

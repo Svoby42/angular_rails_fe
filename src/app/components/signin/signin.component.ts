@@ -9,6 +9,9 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
+  errorExists: boolean = false;
+  error: string = "";
+
   signinForm: FormGroup;
   constructor(
     public fb: FormBuilder,
@@ -23,6 +26,21 @@ export class SigninComponent implements OnInit {
   ngOnInit(): void {
   }
   loginUser() {
-    this.authService.signIn(this.signinForm.value);
+    this.authService.signIn(this.signinForm.value).subscribe({
+      next: res => {
+        localStorage.setItem('jwt_token', res.token);
+        console.log(res.user.id)
+        this.authService.getUserProfile(res.user.id).subscribe((res) => {
+          this.authService.currentUser = res.user;
+          this.router.navigate(['profil/' + res.user.id]);
+        })
+      },
+      error: err => {
+        if (err.status === 401) {
+          this.errorExists = true;
+          this.error = "Špatné údaje";
+        }
+      }
+    });
   }
 }

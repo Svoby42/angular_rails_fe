@@ -46,19 +46,10 @@ export class SignupComponent implements OnInit {
         },
         error: (err) => {
           console.log(err.error.error);
-          if (err?.status == 422) {
-            this.errorMessage = []
-            err.error.error.forEach((element: { "": string; }) => {
-              this.errorMessage.push(element)
-            });
-            console.log(err);
-          } else {
-            this.errorMessage = []
-            err.error.error.forEach((element: { "": string; }) => {
-              this.errorMessage.push(element)
-            });
-            console.log(err);
-          }
+          err.error.error.forEach((element: { "": string; }) => {
+            this.errorMessage.push(element)
+          });
+          console.log(err);
         }
       });
   }

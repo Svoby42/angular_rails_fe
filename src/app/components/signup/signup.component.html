@@ -34,7 +34,7 @@
             <label>Emailová adresa</label>
             <input type="email" class="form-control" 
             [class.is-valid]="!emailAlreadyExists && signupForm.controls['email'].valid && signupForm.controls['email'].touched" 
-            [class.is-invalid]="emailAlreadyExists"
+            [class.is-invalid]="(emailAlreadyExists || signupForm.controls['email'].invalid) && signupForm.controls['email'].touched"
             formControlName="email" placeholder="Zadejte email" 
             required pattern="^[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)$" 
             (change)="checkEmail()"/>
@@ -72,7 +72,7 @@
                 Hesla nejsou shodná
             </div>
         </div>
-        <button type="submit" class="btn btn-block btn-primary mt-1">Zaregistrovat</button>
+        <button type="submit" class="btn btn-block btn-success mt-1 w-100">Zaregistrovat</button>
     </form>
     <div class="alert alert-success" *ngIf="this.successful">
         {{ this.errorMessage }}
