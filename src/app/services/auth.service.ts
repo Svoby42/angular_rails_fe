@@ -33,6 +33,9 @@ export class AuthService {
           })
         })
   }
+  validateEmail(email: any){
+    return this.http.post<any>(`${API_URL}/validate/email`, {"email": email}).pipe(catchError(this.handleError));
+  }
   getToken(){
     return localStorage.getItem('jwt_token')
   }

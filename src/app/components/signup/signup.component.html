@@ -11,7 +11,7 @@
                 Zadejte své jméno
             </div>
             <div class="alert alert-danger" *ngIf="form.submitted && signupForm.controls['full_name'].invalid && !form.submitted">
-                Zadejte svůj nick
+                Zadejte své celé jméno
             </div>
         </div>
         <div class="form-group">
@@ -26,12 +26,17 @@
         </div>
         <div class="form-group">
             <label>Emailová adresa</label>
-            <input type="email" class="form-control" formControlName="email" placeholder="Zadejte email" required pattern="^[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)$" />
+            <input type="email" class="form-control" formControlName="email" placeholder="Zadejte email" 
+            required pattern="^[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)$" 
+            (change)="checkEmail()"/>
             <div class="alert alert-danger" *ngIf="signupForm.controls['email'].invalid && form.submitted ">
                 Špatný formát emailu
             </div>
             <div class="alert alert-danger" *ngIf="signupForm.controls['email'].touched && signupForm.controls['email'].invalid && !form.submitted">
                 Špatný formát emailu
+            </div>
+            <div class="alert alert-danger mt-1" *ngIf="emailAlreadyExists">
+                Tato e-mailová adresa je již obsazena
             </div>
         </div>
         <div class="form-group">

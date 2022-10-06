@@ -3,11 +3,10 @@
   <div class="collapse navbar-collapse" id="navbarSUpportedContent">
     <ul class="navbar-nav ms-auto">
         <li><a *ngIf="this.authService.isLoggedIn" class="btn btn-primary">Profil</a></li>
-        <li><a *ngIf="!this.authService.isLoggedIn" class="btn btn-primary" routerLinkActive="active" routerLink="/log-in">Sign in</a></li>
-        <li><a *ngIf="!this.authService.isLoggedIn" class="btn btn-primary" routerLinkActive="active" routerLinkActive="active" routerLink="/signup">Sign up</a></li>
-        <li><a (click)="logout()" *ngIf="this.authService.isLoggedIn" class="btn btn-primary">Logout</a></li>
+        <li><a *ngIf="!this.authService.isLoggedIn" class="btn btn-primary" routerLinkActive="active" routerLink="/log-in">Přihlásit</a></li>
+        <li><a *ngIf="!this.authService.isLoggedIn" class="btn btn-primary" routerLinkActive="active" routerLinkActive="active" routerLink="/signup">Zaregistrovat</a></li>
+        <li><a (click)="logout()" *ngIf="this.authService.isLoggedIn" class="btn btn-primary">Odhlásit</a></li>
     </ul>
-    <button (click)="logout()" *ngIf="this.authService.isLoggedIn" type="button" class="btn btn-danger">Logout</button>
   </div>
 </nav>
 <router-outlet></router-outlet>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 import { User } from 'src/app/entities/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,6 +15,7 @@ export class SignupComponent implements OnInit {
   errorMessage: any;
   request_body: any;
   successful: boolean = false;
+  emailAlreadyExists: boolean = false
 
   signupForm: FormGroup;
   constructor(
@@ -28,6 +30,9 @@ export class SignupComponent implements OnInit {
         password: [''],
         password_confirmation: ['']
       });
+      this.signupForm.get('email')?.valueChanges.subscribe(change => {
+        this.checkEmail
+      })
     }
 
   ngOnInit(): void {
@@ -42,8 +47,12 @@ export class SignupComponent implements OnInit {
         }, 3000)  // po 3 sekundach redirect
       }, err => {
         console.log(err.error.error);
-        if (err?.status == 409) {
-          this.errorMessage = 'Uživatelské jméno již existuje';
+        if (err?.status == 422) {
+          this.errorMessage = []
+          err.error.error.forEach((element: { "": string; }) => {
+            this.errorMessage.push(element)
+          });
+          console.log(err);
         } else {
           this.errorMessage = []
           err.error.error.forEach((element: { "": string; }) => {
@@ -52,5 +61,19 @@ export class SignupComponent implements OnInit {
           console.log(err);
         }
     });
+  }
+  checkEmail(){
+    if (this.signupForm.controls['email'].valid) {
+      this.authService.validateEmail(this.signupForm.controls['email'].value).subscribe(
+        (res) => {
+          console.log(res);
+          console.log(res.status)
+      }, err => {
+        if(err?.status ==  409){
+          this.emailAlreadyExists = true;
+          console.log(err);
+        }
+      })
+    }
   }
 }
