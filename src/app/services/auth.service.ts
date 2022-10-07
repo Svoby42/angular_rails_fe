@@ -14,25 +14,12 @@ const API_URL = `${environment.BASE_URL}/api/v1`
 })
 export class AuthService {
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-  currentUser = {}
 
   constructor(private http: HttpClient, public router: Router) { }
 
   signUp(user: User): Observable<any> {
     return this.http.post(`${API_URL}/users`, user).pipe(catchError(this.handleError));
   }
-  /*signIn(user: User) {
-    return this.http
-        .post<any>(`${API_URL}/auth/login`, user)
-        .subscribe((res: any) => {
-          localStorage.setItem('jwt_token', res.token);
-          console.log(res.user.id)
-          this.getUserProfile(res.user.id).subscribe((res) => {
-            this.currentUser = res.user;
-            this.router.navigate(['profil/' + res.user.id]);
-          })
-        })
-  }*/
   signIn(user: User): Observable<any> {
     return this.http.post(`${API_URL}/auth/login`, user).pipe(catchError(this.handleError));
   }
@@ -41,28 +28,6 @@ export class AuthService {
   }
   validateNick(nick: any){
     return this.http.post<any>(`${API_URL}/validate/name`, {"name": nick}).pipe(catchError(this.handleError));
-  }
-  getToken(){
-    return localStorage.getItem('jwt_token')
-  }
-  get isLoggedIn(): boolean {
-    let authToken = localStorage.getItem('jwt_token');
-    return authToken !== null ? true : false
-  }
-  doLogout() {
-    let remove_token = localStorage.removeItem('jwt_token');
-    if (remove_token == null) {
-      this.router.navigate(['login']);
-    }
-  }
-  getUserProfile(id: any): Observable<any> {
-    let api = `${API_URL}/users/${id}`;
-    return this.http.get(api, { headers: this.headers }).pipe(
-      map((res) => {
-        return res || {}
-      }),
-      catchError(this.handleError)
-    );
   }
   handleError(error: HttpErrorResponse) {
     let msg = '';

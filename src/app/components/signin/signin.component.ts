@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-signin',
@@ -16,6 +17,7 @@ export class SigninComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
+    public userService: UserService,
     public router: Router
   ) { 
     this.signinForm = this.fb.group({
@@ -29,10 +31,7 @@ export class SigninComponent implements OnInit {
     this.authService.signIn(this.signinForm.value).subscribe({
       next: res => {
         localStorage.setItem('jwt_token', res.token);
-        this.authService.getUserProfile(res.user.id).subscribe((res) => {
-          this.authService.currentUser = res.user;
-          this.router.navigate(['profil/' + res.user.id]);
-        })
+        this.router.navigate(['profil']);
       },
       error: err => {
         if (err.status === 401) {

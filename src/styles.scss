@@ -1,0 +1,14 @@
+@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+
+.alert{
+    margin-top: 1vh;
+}
+.warning{
+    color: red;
+    margin-top: 1vh;
+}
+.form-group{
+    margin-bottom: 1vh;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

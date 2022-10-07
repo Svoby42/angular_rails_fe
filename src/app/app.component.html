@@ -1,12 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-light text-white app-toolbar font-weight-bold mb-2">
-  <h5 style="margin: 1vh;">bruh.cz</h5>
-  <div class="collapse navbar-collapse" id="navbarSUpportedContent">
-    <ul class="navbar-nav ms-auto">
-        <li><a *ngIf="this.authService.isLoggedIn" class="btn btn-primary">Profil</a></li>
-        <li><a *ngIf="!this.authService.isLoggedIn" class="btn btn-primary" routerLink="/login">Přihlásit</a></li>
-        <li><a *ngIf="!this.authService.isLoggedIn" class="btn btn-primary" routerLink="/signup">Zaregistrovat</a></li>
-        <li><a (click)="logout()" *ngIf="this.authService.isLoggedIn" class="btn btn-primary">Odhlásit</a></li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="'.'">Appka</a>
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+      &#9776;
+    </button>
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li><a *ngIf="this.userService.isLoggedIn" class="btn btn-outline-dark w-100" routerLink="/profil">Profil</a></li>
+        <li><a *ngIf="!this.userService.isLoggedIn" class="btn btn-outline-dark w-100" routerLink="/login">Přihlásit</a></li>
+        <li><a *ngIf="!this.userService.isLoggedIn" class="btn btn-outline-dark w-100" routerLink="/signup">Zaregistrovat</a></li>
+        <li><a (click)="logout()" *ngIf="this.userService.isLoggedIn" class="btn btn-outline-dark w-100">Odhlásit</a></li>
+      </ul>
+    </div>
   </div>
 </nav>
+
 <router-outlet></router-outlet>

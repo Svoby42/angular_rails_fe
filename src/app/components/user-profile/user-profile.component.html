@@ -1,13 +1,16 @@
 <div class="container">
-  <div class="alert alert-danger" *ngIf="loggedOut">
+  <div class="alert alert-danger" *ngIf="this.userService.loggedOut">
     Platnost relace vypršela, přihlaste se znovu
   </div>
     <div class="row">
-      <div class="inner-main">
+      <div class="inner-main float-left col-4">
         <h2 class="mb-4">Uživatel</h2>
         <p><strong>Celé jméno:</strong> {{ this.currentUser.full_name }} </p>
         <p><strong>Jméno:</strong> {{ this.currentUser.name }}</p>
         <p><strong>Email:</strong> {{ this.currentUser.email }}</p>
+      </div>
+      <div class="float-left col-4">
+        <a class="btn btn-outline-light w-100" routerLink="zmena-hesla">Změnit heslo</a>
       </div>
     </div>
   </div>
