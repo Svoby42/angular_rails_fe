@@ -5,6 +5,9 @@
       &#9776;
     </button>
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li><a class="btn btn-outline-dark w-100" routerLink="/weather">Počasí</a></li>
+      </ul>
       <ul class="navbar-nav ms-auto">
         <li><a *ngIf="this.userService.isLoggedIn" class="btn btn-outline-dark w-100" routerLink="/profil">Profil</a></li>
         <li><a *ngIf="!this.userService.isLoggedIn" class="btn btn-outline-dark w-100" routerLink="/login">Přihlásit</a></li>

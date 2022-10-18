@@ -1,3 +1,33 @@
-<div class="container mt-2">
-      <p>bruh</p>
+<div class="container-fluid mt-2">
+      <div class="row">
+            <div class="col-md-4 float-left">
+                  Port 3000
+                  <div>
+                        Users
+                        <ul>
+                              <li>GET /api/v1/users</li>
+                              <li>GET /api/v1/users/:id</li>
+                              <li>POST /api/v1/users</li>
+                              <li>DELETE /api/v1/users/:id</li>
+                              <li>PATCH /api/v1/users/:id</li>
+                        </ul>
+                  </div>
+                  <div>
+                        Posts
+                        <ul>
+                              <li>GET /api/v1/posts?count=10</li>
+                              <li>GET /api/v1/posts/:id</li>
+                              <li>POST /api/v1/posts</li>
+                              <li>DELETE /api/v1/posts/:id</li>
+                              <li>PATCH /api/v1/posts/:id</li>
+                        </ul>
+                  </div>
+            </div>
+            <div class="col-md-6 float-left">
+                  <div *ngFor="let post of this.posts">
+                        <p> {{ post.id }} | {{ post.title }} | {{ post.user.full_name }}</p>
+                  </div>
+            </div>
+      </div>
+      
 </div>

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { User } from '../entities/user.model';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http'
 import { Router } from '@angular/router';
 
-import { environment } from '../../environments/environment'
+import { environment } from 'src/environments/environment';
 
 const API_URL = `${environment.BASE_URL}/api/v1`
 
